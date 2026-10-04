@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover,interactive-widget=resizes-content">
+<meta name="theme-color" content="#0b0c0f">
+<title>AIQ Assistant — Adaptive Intelligence</title>
+<style>
+:root{--bg:#0b0c0f;--s1:#13151a;--s2:#1a1d24;--bd:#262a33;--tx:#f2f3f5;--mu:#8b93a1;--ac:#7c8bff;--ok:#4cd39b;--wa:#f0b429;--er:#f0645a;--r:14px;font-family:Inter,Manrope,system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0)}
+:root[data-theme=light]{--bg:#f7f7f9;--s1:#fff;--s2:#eef0f4;--bd:#dde0e7;--tx:#14161a;--mu:#5d6572;--ac:#4a5bf0}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--tx);line-height:1.5;transition:background .3s,color .3s}
+button{font:inherit;color:inherit;cursor:pointer;background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:8px 14px;transition:transform .1s,border-color .2s}
+button:hover{border-color:var(--ac)}button:active{transform:scale(.97)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.pri{background:var(--ac);color:#fff;border-color:var(--ac)}
+a{color:inherit;text-decoration:none}.mu{color:var(--mu)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+nav.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
+nav.top .wrap{display:flex;align-items:center;gap:18px;height:56px}
+.logo{font-weight:800;letter-spacing:-.04em;font-size:20px}.logo i{font-style:normal;color:var(--ac)}.logo small{font-weight:400;font-size:11px;color:var(--mu);margin-left:8px;letter-spacing:0}
+.links{display:flex;gap:16px;margin-left:auto;font-size:14px;color:var(--mu)}.links a:hover{color:var(--tx)}
+.sp{margin-left:auto}
+@media(max-width:760px){.links{display:none}.logo small{display:none}}
+section{padding:64px 0}h1{font-size:clamp(34px,6vw,60px);line-height:1.05;letter-spacing:-.035em;margin:0 0 16px}
+h2{font-size:clamp(24px,3.6vw,36px);letter-spacing:-.025em;margin:0 0 10px;line-height:1.15}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--ac);font-weight:600}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+@media(max-width:860px){.hero{grid-template-columns:1fr}}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:18px;transition:transform .2s,border-color .2s}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.grid4 .card:hover{transform:translateY(-3px);border-color:var(--ac)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.chip{font-size:13px;border-radius:99px;padding:6px 12px}
+.step{display:flex;gap:10px;font-size:13px;padding:5px 0;animation:in .3s both}.step b{width:92px;font-size:11px;letter-spacing:.1em;color:var(--mu)}
+.ok{color:var(--ok)}@keyframes in{from{opacity:0;transform:translateY(6px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.ans{animation:in .35s both}.badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:99px;border:1px solid currentColor;font-weight:600;letter-spacing:.04em}
+.VERIFIED{color:var(--ok)}.WEAK{color:var(--wa)}.CONFLICT{color:var(--wa)}.NONE{color:var(--er)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--mu);margin:8px 0}.meta b{color:var(--tx);font-weight:500}
+.bar{height:6px;background:var(--s2);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);border-radius:9px;transition:width .8s}
+.lv{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.lv .card{position:relative}.lv .on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac)}
+.tag{font-size:11px;letter-spacing:.12em;color:var(--ac);font-weight:700}
+.arch{display:flex;flex-direction:column;align-items:center;gap:6px}.arch .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}.arch button{min-width:150px;padding:12px}.arch button.sel{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 14%,var(--s1))}.arr{color:var(--mu)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.cmp{grid-template-columns:1fr}}
+.cmp .x{border-color:var(--er)}.cmp .y{border-color:var(--ok)}.cmp p{margin:4px 0;font-size:14px}
+footer{border-top:1px solid var(--bd);padding:32px 0;font-size:14px;color:var(--mu)}footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px}
+/* app */
+#app{display:none;height:100dvh}#app.on{display:flex}
+.side{width:232px;background:var(--s1);border-right:1px solid var(--bd);padding:16px 12px;display:flex;flex-direction:column;gap:4px}
+.side button{text-align:left;background:none;border-color:transparent;width:100%}.side button.act,.bn button.act{background:var(--s2);border-color:var(--bd);color:var(--ac)}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.bar2{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--bd)}
+.pill{font-size:12px;border-radius:99px;padding:4px 10px}.pill i{color:var(--ok);font-style:normal}
+.pane{flex:1;overflow:auto;padding:18px;width:100%;max-width:820px;margin:0 auto}
+.msg{margin:14px 0;animation:in .3s both}.u{margin-left:auto;max-width:80%;background:var(--s2);padding:10px 14px;border-radius:14px;width:fit-content}
+.inp{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--bd);max-width:820px;width:100%;margin:0 auto}
+.inp input{flex:1;background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;color:var(--tx);font:inherit;min-width:0}
+.bn{display:none;border-top:1px solid var(--bd);background:var(--s1);padding-bottom:env(safe-area-inset-bottom,0)}.bn button{flex:1;background:none;border:0;border-radius:0;font-size:12px;padding:12px 2px}
+@media(max-width:760px){.side{display:none}.bn{display:flex}}
+#drawer{position:fixed;right:0;top:0;bottom:0;width:min(380px,100%);background:var(--s1);border-left:1px solid var(--bd);padding:20px;transform:translateX(105%);transition:transform .3s;z-index:40;overflow:auto}#drawer.on{transform:none}
+mark{background:color-mix(in srgb,var(--ac) 30%,transparent);color:inherit;padding:2px;border-radius:3px}
+.pop{position:absolute;top:50px;left:16px;z-index:30;width:250px;display:none}.pop.on{display:block}
+.doc{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.drop{border:1.5px dashed var(--bd);border-radius:var(--r);padding:22px;text-align:center;cursor:pointer;margin-bottom:14px}.drop:hover{border-color:var(--ac)}
+.set label{display:block;padding:6px 0}
+#demo{position:fixed;left:50%;transform:translateX(-50%);bottom:76px;z-index:50;width:min(560px,94%);display:none;border-color:var(--ac)}#demo.on{display:block}
+.show{display:none}.show.on{display:block}
+.mrow{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid var(--bd)}
+html{-webkit-tap-highlight-color:transparent}button,.drop{touch-action:manipulation}.inp input{font-size:16px}
+@media(max-width:760px){button{min-height:44px}.pane{padding:14px}.u{max-width:92%}#drawer{width:100%}#demo{bottom:70px}}
+button.rec{background:var(--er);border-color:var(--er);animation:pulse 1.2s infinite}@keyframes pulse{50%{opacity:.6}}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;background:var(--s2);border:1px solid var(--bd);padding:10px 16px;border-radius:12px;z-index:60;display:none;max-width:92%;font-size:14px}
+</style></head><body>
+<div id="site">
+<nav class="top"><div class="wrap"><a class="logo" href="#top">A<i>IQ</i><small>Adaptive Intelligence</small></a>
+<div class="links"><a href="#product">Product</a><a href="#arch">Architecture</a><a href="#how">How It Works</a><a href="#privacy">Privacy</a><a href="#tech">Technology</a></div>
+<div class="sp" style="display:flex;gap:8px"><button onclick="theme()" aria-label="Toggle theme">◐</button><button class="pri" onclick="openApp('chat')">Launch AIQ</button></div></div></nav>
+
+<section id="top"><div class="wrap hero"><div>
+<div class="eyebrow">PRIVATE · LOCAL · ADAPTIVE · VERIFIED</div><h1 style="margin-top:12px">Intelligence that adapts to the question.</h1>
+<p class="mu" style="font-size:17px">AIQ is a private, offline-first AI assistant that dynamically chooses the smallest level of intelligence needed — retrieves your local knowledge, reasons when necessary, and verifies the answer before you trust it.</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="pri" onclick="openApp('chat')">Launch AIQ</button><button onclick="location.hash='arch'">Explore Architecture</button><button onclick="startDemo()">▶ Start AIQ Demo</button></div></div>
+<div class="card"><div class="meta" style="margin:0 0 6px"><span><span class="ok">●</span> <b>Offline active</b></span><span>Prototype demo</span></div>
+<div class="chips" id="hchips"></div><div id="hout" style="min-height:230px"><p class="mu" style="font-size:14px">Pick a question to watch the pipeline run — Understand → Route → Retrieve → Reason → Verify → Answer.</p></div></div></div></section>
+
+<section id="product"><div class="wrap"><h2>Why AIQ?</h2><p class="mu">Not just an offline chatbot — an adaptive local AI system.</p><div class="grid4" style="margin-top:20px">
+<div class="card"><div class="tag">🔒 PRIVATE BY DESIGN</div><p>Your questions and local knowledge can remain on your device during core offline Q&amp;A.</p></div>
+<div class="card"><div class="tag">📴 OFFLINE FIRST</div><p>Core Q&amp;A continues without an internet connection when the required models, indexes and knowledge are available locally.</p></div>
+<div class="card"><div class="tag">⚖ ADAPTIVE COMPUTATION</div><p>Simple questions don't need the largest model.</p></div>
+<div class="card"><div class="tag">🔎 EVIDENCE GROUNDED</div><p>Answers can be checked against the local evidence used to generate them.</p></div></div></div></section>
+
+<section><div class="wrap"><h2>Not every question needs the same amount of intelligence.</h2>
+<div class="chips"><button class="chip" onclick="lvDemo(2)">Simple question → Quick</button><button class="chip" onclick="lvDemo(3)">Complex question → Deep</button></div>
+<div class="lv" id="lv">
+<div class="card" data-l="1"><div class="tag">LEVEL 1 · ROUTER</div><b>SLM</b><p class="mu">Intent · Topic · Complexity. Fast decision-making.</p></div>
+<div class="card" data-l="2"><div class="tag">LEVEL 2 · QUICK</div><b>SLM + Local RAG</b><p class="mu">Direct lookup · Simple Q&amp;A · Summarization.</p></div>
+<div class="card" data-l="3"><div class="tag">LEVEL 3 · DEEP</div><b>Local LLM + Local RAG</b><p class="mu">Comparison · Interpretation · Multi-step reasoning.</p></div></div>
+<p class="mu" id="lvnote" style="font-size:14px">AIQ spends more computation only when the question requires it.</p></div></section>
+
+<section id="arch"><div class="wrap"><h2>How AIQ thinks</h2><p class="mu">Click any node.</p>
+<div class="arch" id="archd"></div><div class="card" id="archp" style="margin-top:16px;max-width:560px;margin-inline:auto"><b>Select a node</b><p class="mu" style="margin:4px 0 0">Each stage explains its role in the pipeline.</p></div></div></section>
+
+<section id="how"><div class="wrap"><h2>How it works</h2><div class="grid4" style="margin-top:18px">
+<div class="card"><div class="tag">01 UNDERSTAND</div><p>AIQ analyzes intent, topic and complexity.</p></div><div class="card"><div class="tag">02 ROUTE</div><p>The adaptive router selects the appropriate intelligence level.</p></div>
+<div class="card"><div class="tag">03 RETRIEVE</div><p>Relevant local knowledge is retrieved.</p></div><div class="card"><div class="tag">04 REASON</div><p>The selected model generates the response.</p></div>
+<div class="card"><div class="tag">05 VERIFY</div><p>The response is checked against evidence.</p></div><div class="card"><div class="tag">06 ANSWER</div><p>The user receives the grounded response and evidence.</p></div></div></div></section>
+
+<section id="privacy"><div class="wrap"><h2>Your knowledge stays yours.</h2>
+<p class="mu">AIQ's core Q&amp;A workflow can operate locally when the required models, indexes, documents and inference components are installed on the device.</p>
+<div class="cmp" style="margin-top:18px"><div class="card x"><b>Traditional cloud AI</b><p>Question</p><p class="arr">↓</p><p>Internet</p><p class="arr">↓</p><p>Cloud</p><p class="arr">↓</p><p>Answer</p></div>
+<div class="card y"><b>AIQ</b><p>Question</p><p class="arr">↓</p><p>Local intelligence</p><p class="arr">↓</p><p>Local knowledge</p><p class="arr">↓</p><p>Verification</p><p class="arr">↓</p><p>Answer</p></div></div>
+<p class="mu" style="font-size:14px;margin-top:14px"><b>Scope:</b> “Offline” refers to the core Q&amp;A pipeline. Model installation, updates or optional cloud features may require connectivity.</p></div></section>
+
+<section id="tech"><div class="wrap"><h2>Technology</h2><p class="mu">Target architecture — exact models, accelerators and frameworks are finalized after target-device validation.</p><div class="grid4" style="margin-top:18px">
+<div class="card"><b>Adaptive routing</b><p class="mu">Prototype architecture: L1 classifier + confidence thresholds.</p></div>
+<div class="card"><b>Local RAG</b><p class="mu">Index, search, ground. Quality depends on chunking and retrieval.</p></div>
+<div class="card"><b>SLM / Local LLM</b><p class="mu">Quantized models sized to the target phone. Hardware/runtime dependent.</p></div>
+<div class="card"><b>Evidence verification</b><p class="mu">Reduces, but does not eliminate, unsupported answers.</p></div></div></div></section>
+<footer><div class="wrap"><b style="color:var(--tx)">AIQ Assistant</b><span>Adaptive Intelligence for Private, Offline, Evidence-Grounded Q&amp;A.</span><a href="#product">Product</a><a href="#arch">Architecture</a><a href="#privacy">Privacy</a><a href="#tech">Technology</a><span>Built for the future of local AI.</span></div></footer>
+</div>
+
+<div id="app">
+<aside class="side"><div class="logo" style="padding:4px 10px 12px">A<i>IQ</i></div><button onclick="newChat()">＋ New conversation</button><div id="nav-d"></div><div style="margin-top:auto" class="mu"><button onclick="closeApp()">← Home</button><button onclick="startDemo()">▶ Demo mode</button></div></aside>
+<div class="main" style="position:relative"><div class="bar2"><button class="pill" onclick="pop.classList.toggle('on')" style="padding:4px 10px"><i>●</i> Offline · Local knowledge ready</button><span class="sp"></span><button onclick="theme()" aria-label="Theme">◐</button></div>
+<div class="card pop" id="pop"><b>Offline Mode</b><div class="mrow"><span>Core Q&amp;A</span><span class="ok">Available</span></div><div class="mrow"><span>Local Knowledge</span><span class="ok">Available</span></div><div class="mrow"><span>Internet</span><span>Disconnected</span></div><div class="mrow"><span>Cloud</span><span>Not required</span></div></div>
+<div class="show on pane" id="v-chat" style="display:none"></div>
+<div class="inp" id="inp"><input id="q" placeholder="Ask AIQ anything about your local knowledge…" aria-label="Ask AIQ" enterkeyhint="send" autocomplete="off"><button id="mic" onclick="micro()" aria-label="Voice input">🎤</button><button class="pri" onclick="send()">Send</button></div>
+<div class="pane show" id="v-know"></div><div class="pane show" id="v-ins"></div><div class="pane show" id="v-set"></div>
+<div class="bn" id="nav-m"></div></div></div>
+
+<div id="toast" role="status"></div>
+<aside id="drawer" aria-label="Evidence"></aside>
+<div class="card" id="demo"></div>
+
+<script>
+const $=s=>document.querySelector(s),sleep=ms=>new Promise(r=>setTimeout(r,matchMedia('(prefers-reduced-motion:reduce)').matches?20:ms));
+const theme=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme=='dark'?'light':'dark'};
+// ---- mock services (replace with real backends) ----
+const KB=[{n:'Employee_Policy.pdf',t:'PDF',s:'412 KB',c:'Policies',ch:24,u:'2 days ago'},{n:'Project_Guidelines.pdf',t:'PDF',s:'1.1 MB',c:'Projects',ch:41,u:'Today'},{n:'Policy_v1.pdf',t:'PDF',s:'260 KB',c:'Policies',ch:18,u:'Last month'},{n:'Policy_v2.pdf',t:'PDF',s:'281 KB',c:'Policies',ch:20,u:'Last week'},{n:'Research_Notes.md',t:'Note',s:'38 KB',c:'Research',ch:9,u:'3 days ago'}];
+const R=[
+{k:/leave/,L:2,a:'Employees are eligible for 18 days of annual leave per calendar year.',src:['Employee_Policy.pdf'],p:'§4.2 Annual leave: Full-time employees are entitled to <mark>18 days of paid annual leave per calendar year</mark>.',sc:94,st:'VERIFIED',n:3},
+{k:/deadline|submission/,L:2,a:'Your project submission deadline is October 14.',src:['Project_Guidelines.pdf'],p:'Timeline: Final <mark>project submission closes on October 14</mark> at 17:00.',sc:92,st:'VERIFIED',n:2},
+{k:/summar/,L:2,a:'The project document defines scope, a milestone timeline, and submission rules. Final submission is due October 14; teams of up to four may participate.',src:['Project_Guidelines.pdf'],p:'Overview: <mark>Teams of up to four</mark> deliver a working prototype with documentation.',sc:90,st:'VERIFIED',n:4},
+{k:/compar|differ/,L:3,a:'v2 extends annual leave from 15 to 18 days and adds a carry-over limit of 5 days; the notice period is unchanged.',src:['Policy_v1.pdf','Policy_v2.pdf'],p:'v1: 15 days annual leave. v2: <mark>18 days annual leave, carry-over up to 5 days</mark>.',sc:88,st:'VERIFIED',n:6},
+{k:/rule|case|apply/,L:3,a:'Based on the retrieved clauses, the remote-work rule likely applies, but your case details are only partly covered.',src:['Employee_Policy.pdf'],p:'§7: Remote work <mark>may be approved</mark> by a manager for eligible roles.',sc:61,st:'WEAK',n:3},
+{k:/notice|resign/,L:3,a:'The documents disagree on the notice period.',src:['Policy_v1.pdf','Policy_v2.pdf'],p:'v1: <mark>30 days notice</mark>. v2: <mark>60 days notice</mark>. No version priority found.',sc:55,st:'CONFLICT',n:2}];
+const NONE={L:2,a:"I couldn't verify an answer from the available offline knowledge.",src:[],p:'No relevant passage found in indexed documents.',sc:0,st:'NONE',n:0};
+const ST={VERIFIED:'✓ Evidence verified',WEAK:'Weak support',CONFLICT:'Conflicting documents',NONE:'No evidence'};
+const pref={v:'Adaptive',speak:0};
+const classify=q=>R.find(r=>r.k.test(q.toLowerCase()))||NONE;
+const route=r=>pref.v=='Quick'?2:pref.v=='Deep'?3:r.L;
+async function ask(q,out){ // understand → route → retrieve → reason → verify → answer
+ const r={...classify(q)};r.L=route(r);const box=document.createElement('div');out.appendChild(box);
+ const S=[['UNDERSTANDING','Intent detected'],['ROUTING',`Level ${r.L} selected`+(r.L==3?' — deeper reasoning required':'')],['RETRIEVING',r.n?`${r.n} relevant passages found`:'No relevant passages found'],['GENERATING','Response created'],['VERIFYING',r.st=='VERIFIED'?'Evidence supported':ST[r.st]]];
+ for(const s of S){box.insertAdjacentHTML('beforeend',`<div class="step"><b>${s[0]}</b><span class="ok">✓</span> ${s[1]}</div>`);out.scrollTop=1e5;await sleep(380)}
+ const id='e'+Math.random().toString(36).slice(2);window[id]=r;
+ box.insertAdjacentHTML('beforeend',`<div class="ans" style="margin-top:10px"><p style="margin:0 0 6px">${r.a}</p><span class="badge ${r.st}">${ST[r.st]}</span>
+ <div class="meta"><span>Processing: <b>${r.L==2?'Quick':'Deep'}</b></span><span>Level: <b>L${r.L}</b></span><span>Source: <b>${r.src.join(', ')||'—'}</b></span><span>Confidence: <b>${r.sc>=85?'High':r.sc>=60?'Medium':'Low'}</b></span></div>
+ <button onclick="evid(window.${id})">View evidence</button> <button onclick="speak(window.${id}.a)" aria-label="Read answer aloud">🔊</button>${r.st!='VERIFIED'?'<p class="mu" style="font-size:12px">AIQ does not guarantee correctness — please review the source.</p>':''}</div>`);
+ if(pref.speak)speak(r.a);out.scrollTop=1e5;return r}
+function evid(r){$('#drawer').innerHTML=`<button onclick="$('#drawer').classList.remove('on')" style="float:right" aria-label="Close">✕</button><h3>Evidence</h3><p class="mu">Source: ${r.src.join(', ')||'None'}</p><div class="card" style="font-size:14px">${r.p}</div>
+ <p style="margin-bottom:4px">Evidence support</p><div class="bar"><i style="width:0" id="eb"></i></div><p>${r.sc}% · <span class="badge ${r.st}">${r.st=='CONFLICT'?'CONFLICTING':r.st=='WEAK'?'WEAK SUPPORT':r.st=='NONE'?'NO EVIDENCE':'VERIFIED'}</span></p>
+ ${r.st=='NONE'?"<p>I couldn't verify an answer from the available offline knowledge.</p>":''}<p class="mu" style="font-size:12px">Verification improves reliability but does not guarantee every answer is correct.</p>`;
+ $('#drawer').classList.add('on');setTimeout(()=>{$('#eb').style.width=r.sc+'%'},50)}
+// ---- landing ----
+const HQ=["What's the leave policy?","Summarize this project document.","Compare these two documents.","Which rule applies to my case?"];
+$('#hchips').innerHTML=HQ.map(q=>`<button class="chip">${q}</button>`).join('');
+let busy=0;document.querySelectorAll('#hchips button').forEach(b=>b.onclick=async()=>{if(busy)return;busy=1;$('#hout').innerHTML=`<div class="msg u">${b.textContent}</div>`;await ask(b.textContent,$('#hout'));busy=0});
+async function lvDemo(l){const c=[...document.querySelectorAll('#lv .card')];for(const s of [1,l]){c.forEach(x=>x.classList.toggle('on',x.dataset.l==s));await sleep(700)}
+ $('#lvnote').textContent=l==2?'Simple question: L1 routes to Quick (SLM + Local RAG). Minimal computation.':'Complex question: L1 routes to Deep (Local LLM + Local RAG). More computation, only because it is needed.'}
+const AN=[['User question','The question arrives as text or voice.'],['Level 1 · SLM classifier','Identifies intent, topic, likely source and complexity.'],['Adaptive router','Determines whether the request is retrieval-friendly or requires deeper reasoning.'],['Level 2 · SLM + Local RAG','Lightweight model answers direct lookups and summaries from local evidence.'],['Level 3 · Local LLM + Local RAG','Larger local model for comparison, interpretation and multi-step reasoning.'],['Retrieved evidence','Relevant passages from indexed local documents.'],['Verification','Compares the answer with the evidence. Weak support → regenerate, hedge, or say unavailable.'],['Final answer + evidence','Answer shown with processing level and source.']];
+const nb=i=>`<button onclick="an(${i},this)">${AN[i][0]}</button>`,ar='<div class="arr">↓</div>';
+$('#archd').innerHTML=nb(0)+ar+nb(1)+ar+nb(2)+ar+`<div class="row">${nb(3)}${nb(4)}</div>`+ar+nb(5)+ar+nb(6)+ar+nb(7);
+function an(i,b){document.querySelectorAll('.arch button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');$('#archp').innerHTML=`<b>${AN[i][0]}</b><p class="mu" style="margin:4px 0 0">${AN[i][1]}</p>`}
+// ---- app ----
+const NAV=[['chat','💬','Chat'],['know','📚','Knowledge'],['ins','📊','Insights'],['set','⚙','Settings']];
+const navh=()=>NAV.map(n=>`<button data-v="${n[0]}" onclick="view('${n[0]}')">${n[1]} ${n[2]}</button>`).join('');
+$('#nav-d').innerHTML=navh();$('#nav-m').innerHTML=`<button onclick="closeApp()">🏠<br>Home</button>`+navh().replace(/(<button[^>]*>)(\S+) (\w+)/g,'$1$2<br>$3');
+let cur='chat',hist=[];
+function view(v){cur=v;['chat','know','ins','set'].forEach(x=>$('#v-'+x).style.display=x==v?'block':'none');$('#inp').style.display=v=='chat'?'flex':'none';
+ document.querySelectorAll('[data-v]').forEach(b=>b.classList.toggle('act',b.dataset.v==v));$('#pop').classList.remove('on');
+ if(v=='know')know();if(v=='ins')ins();if(v=='set')sett()}
+function openApp(v){$('#site').style.display='none';$('#app').classList.add('on');if(!$('#v-chat').innerHTML)newChat();view(v||'chat')}
+function closeApp(){$('#app').classList.remove('on');$('#site').style.display='block'}
+function newChat(){$('#v-chat').innerHTML=`<h2 style="margin-top:20px">Good evening.<br><span class="mu">What would you like to know?</span></h2><p class="mu" style="font-size:13px"><span class="ok">●</span> Offline Mode · LOCAL KNOWLEDGE READY</p><div class="chips">${HQ.concat(['What is the notice period?','Who is the CEO of Mars Inc?']).map(q=>`<button class="chip" onclick="send('${q.replace(/'/g,"\\'")}')">${q}</button>`).join('')}</div>`;view('chat')}
+async function send(t){const i=$('#q'),q=t||i.value.trim();if(!q)return;i.value='';view('chat');const p=$('#v-chat');p.insertAdjacentHTML('beforeend',`<div class="msg u">${q.replace(/</g,'&lt;')}</div>`);const m=document.createElement('div');m.className='msg';p.appendChild(m);hist.unshift(q);const r=await ask(q,m);p.scrollTop=1e5;return r}
+$('#q').addEventListener('keydown',e=>{if(e.key=='Enter')send()});
+const PH=$('#q').placeholder;let rec,lis=0,tt;
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(tt);tt=setTimeout(()=>t.style.display='none',4000)}
+function speak(x){if(!window.speechSynthesis)return toast("Read-aloud isn't supported here.");speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(x.replace(/<[^>]+>/g,''));u.lang='en-IN';speechSynthesis.speak(u)}
+function micro(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition,b=$('#mic');
+ if(!SR)return toast('Voice input needs Chrome on Android (or another browser with speech recognition).');
+ if(lis){rec.stop();return}
+ rec=new SR();rec.lang='en-IN';rec.interimResults=true;
+ rec.onstart=()=>{lis=1;b.classList.add('rec');$('#q').placeholder='Listening…'};
+ rec.onresult=e=>{let t='';for(const r of e.results)t+=r[0].transcript;$('#q').value=t};
+ rec.onerror=e=>toast(/not-allowed|service/.test(e.error)?'Microphone blocked. Allow mic access, or open the link directly in Chrome.':e.error=='no-speech'?'No speech heard. Try again.':e.error=='network'?'Voice recognition needs a connection in this browser.':'Voice error: '+e.error);
+ rec.onend=()=>{lis=0;b.classList.remove('rec');$('#q').placeholder=PH;if($('#q').value.trim())send()};
+ try{rec.start()}catch(e){toast('Could not start the microphone.')}}
+function know(f=''){ $('#v-know').innerHTML=`<h2>Your Knowledge</h2><div class="drop" onclick="addK()" ondragover="event.preventDefault()" ondrop="event.preventDefault();addK()">⬆ Add Knowledge — drop files or click to simulate</div><div id="idx"></div>
+ <input placeholder="Search knowledge…" aria-label="Search knowledge" value="${f}" oninput="kl(this.value)" style="width:100%;margin-bottom:12px;background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:10px;color:var(--tx);font:inherit">
+ <div id="kl">${klh(f)}</div>`;}
+function klh(f){return (KB.filter(d=>(d.n+d.c).toLowerCase().includes(f.toLowerCase())).map((d,i)=>`<div class="card doc" style="margin-bottom:10px"><div><b>${d.n}</b><div class="meta" style="margin:2px 0"><span>${d.t}</span><span>${d.s}</span><span>${d.c}</span><span>${d.ch} chunks</span><span>Updated ${d.u}</span></div><span class="ok" style="font-size:12px">Indexed ✓</span></div><button onclick="send('Summarize ${d.n}');">Ask AIQ</button></div>`).join(''))||'<div class="card" style="text-align:center"><b>No knowledge found</b><p class="mu">Add your first document and let AIQ learn from your local knowledge.</p></div>'}
+function kl(v){$('#kl').innerHTML=klh(v)}
+async function addK(){const e=$('#idx');for(const s of['Uploading','Extracting','Indexing','Ready']){e.innerHTML=`<div class="card" style="margin-bottom:10px"><b>New_Document.pdf</b> · <span class="${s=='Ready'?'ok':'mu'}">${s=='Ready'?'Ready ✓':s+'…'}</span><div class="bar"><i style="width:${['Uploading','Extracting','Indexing','Ready'].indexOf(s)*33+10}%"></i></div></div>`;await sleep(650)}
+ KB.unshift({n:'New_Document.pdf',t:'PDF',s:'320 KB',c:'Documents',ch:12,u:'Just now'});know()}
+function ins(){const B=(n,w,l)=>`<p style="margin:12px 0 4px">${n} <span class="mu">· ${l}</span></p><div class="bar"><i style="width:${w}%"></i></div>`;
+ $('#v-ins').innerHTML=`<h2>System Insights</h2><p class="badge WEAK">DEMO METRICS · Prototype / illustrative — not measured results</p><div class="grid4" style="margin:14px 0">${[['Routing accuracy','92%'],['Grounding rate','96%'],['Avg Quick response','0.8 s'],['Deep response','2.4 s'],['Memory usage','1.8 GB']].map(m=>`<div class="card"><div class="mu" style="font-size:12px">${m[0]}</div><b style="font-size:24px">${m[1]}</b></div>`).join('')}</div>
+ <div class="card"><b>Relative resource usage (illustrative)</b>${B('Level 1 · Router',10,'low')}${B('Level 2 · SLM + RAG',35,'moderate')}${B('Level 3 · LLM + RAG',85,'highest')}</div>`}
+function sett(){$('#v-set').innerHTML=`<h2>Settings</h2><div class="card set"><b>Processing preference</b>${['Adaptive','Quick','Deep'].map(o=>`<label><input type="radio" name="pp" ${pref.v==o?'checked':''} onchange="pref.v='${o}'"> ${o}</label>`).join('')}<p class="mu" style="font-size:13px">Adaptive: AIQ automatically chooses the appropriate processing level.</p></div>
+ <div class="card set" style="margin-top:12px"><b>Voice</b><label><input type="checkbox" ${pref.speak?'checked':''} onchange="pref.speak=this.checked?1:0"> Read answers aloud</label><p class="mu" style="font-size:13px">Voice input uses your browser's speech service, which on Android Chrome may need internet. The core Q&amp;A design stays local.</p><b>Appearance</b><p><button onclick="theme()">Toggle dark / light</button></p><b>Privacy</b><p class="mu" style="font-size:13px">Core Q&amp;A runs locally in the intended design. This prototype uses simulated responses and sends nothing anywhere.</p><b>About AIQ</b><p class="mu" style="font-size:13px">AIQ Assistant — Adaptive Intelligence for Private, Offline, Evidence-Grounded Q&amp;A. Prototype UI; model names and hardware are not yet finalized.</p></div>`}
+// ---- demo mode ----
+const D=[['1 · Offline mode','Core AI available locally. Internet disconnected, cloud not required.',async()=>{openApp('chat');$('#pop').classList.add('on')}],
+['2–6 · Simple question → L2 → evidence','Level 1 routes a direct lookup to Level 2 (SLM + Local RAG).',async()=>{$('#pop').classList.remove('on');const r=await send("What's the leave policy?");evid(r)}],
+['7–10 · Complex question → L3 → verified','Comparison across two documents is routed to Level 3 (Local LLM + Local RAG), then verified.',async()=>{$('#drawer').classList.remove('on');const r=await send('Compare these two documents.');evid(r)}],
+['Resource story','Deeper processing costs more — shown here with illustrative metrics only.',async()=>{$('#drawer').classList.remove('on');view('ins')}]];
+let di=0;
+function startDemo(){di=0;$('#demo').classList.add('on');stepD()}
+async function stepD(){const d=D[di];$('#demo').innerHTML=`<div class="tag">DEMO ${di+1}/${D.length}</div><b>${d[0]}</b><p class="mu" style="margin:4px 0 10px;font-size:14px">${d[1]}</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button onclick="di=Math.max(0,di-1);stepD()">Previous</button><button class="pri" onclick="if(di<D.length-1){di++;stepD()}">Next</button><button onclick="startDemo()">Restart Demo</button><button onclick="$('#demo').classList.remove('on')">Exit</button></div>`;await d[2]()}
+view('chat');closeApp();
+</script></body></html>
